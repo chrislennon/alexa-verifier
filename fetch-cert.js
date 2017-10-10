@@ -20,7 +20,7 @@ module.exports = function fetchCert(options, callback) {
 
   var body = ''
 
-  https.get(url.href, function(response) {
+  https.get(url.href, function(error, response, body) {
     var statusCode
 
     if (!response || 200 !== response.statusCode) {
