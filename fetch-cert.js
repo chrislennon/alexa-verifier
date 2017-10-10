@@ -21,9 +21,6 @@ module.exports = function fetchCert(options, callback) {
   var body = ''
 
   https.get(url.href, function(error, response, body) {
-    console.log(error);
-    console.log(response);
-    console.log(body);
     var statusCode
 
     if (!response || 200 !== response.statusCode) {
@@ -33,13 +30,6 @@ module.exports = function fetchCert(options, callback) {
 
     response.setEncoding('utf8')
     callback(undefined, body, servedFromCache)
-/*    response.on('data', function (chunk) {
-      body += chunk
-    })
-    response.on('end', function () {
-      cache[url.href] = body
-      callback(undefined, body, servedFromCache)
-    })*/
   })
   .on('error', function(er) {
     console.error('balls2!', er)

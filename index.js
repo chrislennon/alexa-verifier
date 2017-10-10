@@ -51,18 +51,15 @@ function validateTimestamp(requestBody) {
     request_json = JSON.parse(requestBody)
   } catch (error) {
     e = error
-    console.log('request body invalid json');
     return 'request body invalid json'
   }
   if (!(request_json.request && request_json.request.timestamp)) {
-    console.log('Timestamp field not present in request');
     return 'Timestamp field not present in request'
   }
   d = new Date(request_json.request.timestamp)
   now = new Date()
   oldestTime = now.getTime() - (TIMESTAMP_TOLERANCE * 1000)
   if (d.getTime() < oldestTime) {
-    console.log('Request is from more than ' + TIMESTAMP_TOLERANCE + ' seconds ago');
     return 'Request is from more than ' + TIMESTAMP_TOLERANCE + ' seconds ago'
   }
 }
@@ -71,23 +68,18 @@ function validateTimestamp(requestBody) {
 // certificate validator express middleware for amazon echo
 module.exports = function verifier(cert_url, signature, requestBody, callback) {
   var er
-  console.log('verify started');
   if(!cert_url) {
-    console.log('missing certificate url');
     return process.nextTick(callback, 'missing certificate url')
   }
 
   if (!signature) {
-    console.log('missing signature');
     return process.nextTick(callback, 'missing signature')
   }
   if (!requestBody) {
-    console.log('missing request (certificate) body');
     return process.nextTick(callback, 'missing request (certificate) body')
   }
 
   if (!validator.isBase64(signature)) {
-    console.log('invalid signature (not base64 encoded)');
     return process.nextTick(callback, 'invalid signature (not base64 encoded)')
   }
   er = validateTimestamp(requestBody)
@@ -98,11 +90,9 @@ module.exports = function verifier(cert_url, signature, requestBody, callback) {
 
   getCert(cert_url, function(er, pem_cert) {
     if (er) {
-      console.log(er);
       return callback(er)
     }
     if (!isValidSignature(pem_cert, signature, requestBody)) {
-      console.log('invalid signature');
       return callback('invalid signature')
     }
     callback()
