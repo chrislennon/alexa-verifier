@@ -1,6 +1,8 @@
 'use strict'
 
-var https = require('https')
+// RIP proxy support https://github.com/nodejs/node/issues/8381#issuecomment-288024753
+//var https = require('https')
+var https = require('request');
 
 
 var globalCache = {} // default in-memory cache for downloaded certificates
